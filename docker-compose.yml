@@ -9,7 +9,7 @@ services:
       - .env
     environment:
       - GITHUB_TOKEN=${GITHUB_TOKEN}
-      - GITHUB_USER=${GITHUB_USER}
+      - GITHUB_USERS=${GITHUB_USERS}
 
   frontend:
     build: ./frontend
