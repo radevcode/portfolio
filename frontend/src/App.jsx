@@ -15,7 +15,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#f8f8f8] text-[#1a1a1a] selection:bg-black selection:text-white">
       {/* Header Estilo Editorial */}
-      <header className="px-6 py-24 md:px-20 border-b border-black/5">
+      <header className="border-b border-black/5">
         <Herolanding/>
       </header>
 
