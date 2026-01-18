@@ -1,13 +1,11 @@
-"use client";
 import { useEffect, useRef } from "react";
 
 export default function AnimatedSvgText({
   children,
   viewBox = "55 34 118 27",
-  width = "",
-  strokeWidth = 1.2,
-  duration = 1400,
-  stagger = 0.06,
+  strokeWidth = 0.6,
+  duration = 1800,
+  stagger = 0.08,
   className = "",
 }) {
   const svgRef = useRef(null);
@@ -16,42 +14,62 @@ export default function AnimatedSvgText({
     const svg = svgRef.current;
     if (!svg) return;
 
-    // Stroke draw
+    // 1. Limpiamos y preparamos los paths
     const paths = svg.querySelectorAll("path");
     paths.forEach((path, i) => {
       const length = path.getTotalLength();
+      
+      // Estado inicial forzado
+      path.style.transition = "none";
       path.style.strokeDasharray = length;
       path.style.strokeDashoffset = length;
-      path.style.animationDelay = `${i * stagger}s`;
+      path.style.fillOpacity = "0";
+      path.style.stroke = "#fff";
+
+      // El truco para que el navegador se entere del cambio
+      path.getBoundingClientRect();
+
+      // Disparamos la animación con un pequeño delay
+      setTimeout(() => {
+        path.style.transition = `stroke-dashoffset 1.5s ease-in-out ${i * stagger}s, fill-opacity 1s ease-in ${1.2 + (i * stagger)}s`;
+        path.style.strokeDashoffset = "0";
+        path.style.fillOpacity = "1";
+      }, 50);
     });
 
-    // Mask reveal
+    // 2. Animación de la máscara manual (Sin depender de clases CSS externas)
     const rect = svg.querySelector("#reveal-rect");
-    rect.animate(
-      [{ width: "0%" }, { width: "100%" }],
-      {
-        duration,
-        easing: "cubic-bezier(.22,1,.36,1)",
-        fill: "forwards",
-      }
-    );
-  }, [duration, stagger]);
+    if (rect) {
+      rect.style.width = "0%"; // Reset
+      setTimeout(() => {
+        rect.style.transition = `width ${duration}ms cubic-bezier(.22,1,.36,1)`;
+        rect.style.width = "100%";
+      }, 100);
+    }
+  }, [children]); // Se reinicia si el contenido cambia
 
   return (
     <svg
       ref={svgRef}
       viewBox={viewBox}
-      className={className}
+      className={`overflow-visible ${className}`}
       xmlns="http://www.w3.org/2000/svg"
+      style={{ width: '100%', height: 'auto' }}
     >
       <defs>
+        {/* FILTRO DE GLOW SUAVE */}
+        <filter id="soft-glow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="0.8" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+
         <mask id="reveal-mask">
           <rect
             id="reveal-rect"
-            x="55"
-            y="33"
+            x="55" 
+            y="34"
             width="0"
-            height="30"
+            height="100%"
             fill="white"
           />
         </mask>
@@ -59,9 +77,10 @@ export default function AnimatedSvgText({
 
       <g
         mask="url(#reveal-mask)"
-        className="fill-active"
-        stroke="currentColor"
+        filter="url(#soft-glow)"
+        stroke="#fff"
         strokeWidth={strokeWidth}
+        fill="#fff"
         strokeLinecap="round"
         strokeLinejoin="round"
       >

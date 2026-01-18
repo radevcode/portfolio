@@ -1,0 +1,25 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      keyframes: {
+        draw: {
+          to: { "stroke-dashoffset": "0" },
+        },
+        fillIn: {
+          from: { "fill-opacity": "0" },
+          to: { "fill-opacity": "1" },
+        },
+      },
+      animation: {
+        draw: "draw 1.1s cubic-bezier(.22,1,.36,1) forwards",
+        fillIn: "fillIn 2s ease-in forwards 1.8s",
+      },
+    },
+  },
+  plugins: [],
+};

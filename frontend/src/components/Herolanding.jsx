@@ -1,32 +1,33 @@
 import AnimatedSvgText from "./AnimatedSvgText";
 import HelloPaths from "./HelloPaths";
-import pc from "../assets/pc.png"; // Asegúrate de tener la imagen aquí
+import note from "../assets/note.png"; // Asegúrate de tener la imagen aquí
 
 export default function Herolanding() {
   return (
-    <section className="hero">
-      <div className="hero-content">
-        <AnimatedSvgText
-          className="animated-svg"
-          viewBox="55 34 118 27"
-          strokeWidth={0.8}
-          duration={1400}
-          stagger={0.05}
-        >
-          <HelloPaths />
-        </AnimatedSvgText>
+    <section className="flex flex-col @lg:flex-row items-center justify-center min-h-[50vh] max-screen
+      width:100% gap-2 pr-5 relative overflow-hidden bg-[#020617] " >
+      <div className="flex-1 z-2 max-w-125">
+<AnimatedSvgText 
+  viewBox="55 34 118 27" 
+  strokeWidth={0.5} 
+  duration={2000} 
+  stagger={0.1}
+  className="w-full max-w-4xl"
+>
+  <HelloPaths />
+</AnimatedSvgText>
         <p className="hero-subtitle">
           Soluciones inteligentes en la nube y conectividad total.
         </p>
         <button className="hero-btn">Empezar ahora</button>
       </div>
 
-      <div className="hero-image-container">
+      <div className="flex-1 flex justify-center items-center relative">
         <div className="vignette-overlay"></div>
         <img 
-          src={pc} 
+          src={note} 
           alt="Notebook Isométrica" 
-          className="hero-main-image"
+          className="max-w-[500px] h-auto relative z-1"
         />
       </div>
     </section>

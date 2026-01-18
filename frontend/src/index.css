@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
-:root {
-  background-color: #888;
+body {
+  background-color: #f8f8f8;
+  margin: 0;
 }
 
-body {
-  margin: 0;
-  background-color: #888;
-  -webkit-font-smoothing: antialiased;
+/* Solo esto para que los paths no "parpadeen" al cargar */
+svg path {
+  fill-opacity: 0;
 }
