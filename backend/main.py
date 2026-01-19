@@ -36,14 +36,16 @@ async def get_github_repos():
     async with httpx.AsyncClient() as client:
         for user in GITHUB_USERS:
             user = user.strip() # clean whitespaces
-            url = f"https://api.github.com/users/{user}/repos?sort=updated"
+            url = f"https://api.github.com/users/{user}/repos?sort=updated&per_page=100"
             response = await client.get(url, headers=headers)
             if response.status_code == 200:
                         #Filtering...
                 repos_data = response.json()
 
                 for r in repos_data:
-                    if not r["fork"]:
+                    #Filtrado por tag
+                    topics = r.get("topics", [])
+                    if not r["fork"] and "portfolio" in topics:
                         all_repos.append({
                             "name": r["name"],
                             "url": r["html_url"],

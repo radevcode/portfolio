@@ -9,8 +9,11 @@ export default function AnimatedSvgText({
   className = "",
 }) {
   const svgRef = useRef(null);
+  const animated = useRef(false); //flag para evitar repetir la animacion
 
   useEffect(() => {
+    // Evita que la animacion se repita
+    if (AnimatedSvgText.current) return;
     const svg = svgRef.current;
     if (!svg) return;
 
@@ -46,7 +49,8 @@ export default function AnimatedSvgText({
         rect.style.width = "100%";
       }, 100);
     }
-  }, [children]); // Se reinicia si el contenido cambia
+    animated.current = true;
+  }, []); // Se reinicia si el contenido cambia
 
   return (
     <svg

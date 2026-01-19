@@ -15,10 +15,10 @@ export default function Herolanding() {
             Digital Experience
           </span>
           {/* SVG animado y subtítulo */}
-          <div className="w-full max-w-60 md:max-w-75 pb-10">
+          <div className="w-full max-w-60 md:max-w-150 pb-10 text-slate-800">
         
           <AnimatedSvgText 
-            viewBox="55 34 118 27" 
+            viewBox="55 30 118 40" 
             strokeWidth={0.5} 
             duration={2000} 
             stagger={0.1}
