@@ -20,7 +20,7 @@ export default function App() {
       </header>
 
       {/* Listado de Repositorios */}
-      <main className="px-6 py-24 md:px-20 grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-32">
+      <main className="px-6 py-24 md:px-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full max-w-7xl mx-auto">
         {repos.map((repo, index) => (
           <RepoCard key={repo.url} repo={repo} index={index} />
         ))}

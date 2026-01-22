@@ -3,40 +3,58 @@ export const RepoCard = ({ repo, index }) => {
   const displayIndex = String(index + 1).padStart(2, '0');
 
   return (
-    <div className="group relative border-b border-gray-200 pb-12 transition-all duration-500 hover:border-black">
-      {/* Indicador de número estilo dunks1980 */}
-      <div className="flex justify-between items-end mb-6">
-        <span className="font-mono text-xs tracking-widest text-gray-400">
-          {displayIndex} / {repo.language || "CLOUD"}
-        </span>
+    // Definimos una altura fija para la card (ej: h-[450px])
+    <div className="flex flex-col h-120 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-lg transition-all duration-300">
+      
+      {/* 1. IMAGEN: Altura fija y proporcional */}
+      <div className="h-48 flex-1 w-2xs bg-slate-100 overflow-hidden justify-center mx-auto flex">
+        <img 
+          src={repo.image} 
+          alt={repo.name}
+          className="h-full object-cover"
+        />
       </div>
 
-      {/* Contenedor de "Preview" (Placeholder minimalista) */}
-      <div className="aspect-video bg-gray-100 overflow-hidden mb-8 relative grayscale group-hover:grayscale-0 transition-all duration-700">
-        <div className="absolute inset-0 flex items-center justify-center opacity-5 group-hover:opacity-10 transition-opacity">
-          <span className="text-9xl font-black">{repo.name[0]}</span>
-        </div>
-        {/* Aquí podrías poner una imagen real en el futuro */}
-      </div>
-
-      {/* Información del Repo */}
-      <div className="space-y-4">
-        <h2 className="text-4xl font-black uppercase tracking-tighter leading-none">
-          {repo.name}
-        </h2>
+      {/* 2. CONTENIDO: Con padding consistente */}
+      <div className="flex flex-col grow p-6">
         
-        <p className="text-gray-500 text-lg leading-relaxed max-w-xl italic">
-          {repo.description || "Infrastructure as Code and automated deployment pipelines."}
-        </p>
+        {/* TÍTULO: Limitado a 1 línea con puntos suspensivos si es muy largo */}
+        <h3 className="text-lg font-bold text-slate-900 truncate mb-2" title={repo.name}>
+          {repo.name}
+        </h3>
 
-        <div className="pt-4">
+        {/* DESCRIPCIÓN: Altura fija para que todas las descripciones ocupen lo mismo */}
+        <div className="h-18 overflow-hidden"> 
+           <p className="text-sm text-slate-600 line-clamp-3 leading-relaxed">
+            {repo.description || "Project without description. Click to see more details in the repository."}
+          </p>
+        </div>
+
+        {/* TOPICS: Espacio controlado para las etiquetas */}
+        <div className="flex flex-wrap gap-2 mt-4 h-14 overflow-hidden">
+          {repo.topics?.slice(0, 3).map(topic => (
+            <span key={topic} className="px-2 py-1 bg-slate-100 text-slate-500 text-[10px] uppercase font-bold rounded">
+              {topic}
+            </span>
+          ))}
+        </div>
+
+        {/* 3. FOOTER: Empujado al fondo para que siempre esté alineado */}
+        <div className="mt-auto pt-4 flex items-center justify-between border-t border-slate-50">
+          <div className="flex items-center gap-3">
+             <span className="flex items-center text-xs text-slate-500 font-medium">
+                <span className="w-2 h-2 rounded-full bg-blue-500 mr-2"></span>
+                {repo.language || "Web"}
+             </span>
+          </div>
+          
           <a 
             href={repo.url} 
             target="_blank" 
-            rel="noopener noreferrer"
-            className="inline-flex items-center text-xs font-black uppercase tracking-[0.2em] border-b-2 border-black pb-1 hover:text-gray-400 hover:border-gray-400 transition-all"
+            rel="noreferrer"
+            className="text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors"
           >
-            Explore Case Study <span className="ml-2">→</span>
+            View Repo →
           </a>
         </div>
       </div>

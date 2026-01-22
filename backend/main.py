@@ -46,12 +46,18 @@ async def get_github_repos():
                     #Filtrado por tag
                     topics = r.get("topics", [])
                     if not r["fork"] and "portfolio" in topics:
+                        repo_name = r["name"]
+                        #imagen
+                        image_url = f"https://opengraph.githubassets.com/1/{user}/{repo_name}"
+
                         all_repos.append({
                             "name": r["name"],
                             "url": r["html_url"],
                             "description": r["description"],
                             "stars": r["stargazers_count"],
-                            "language": r["language"]
+                            "language": r["language"],
+                            "image": image_url,
+                            "topics": topics
                         }) 
             else:
                 print(f"Error consultando a {user}: {response.status_code}")
